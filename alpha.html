@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat-box { width: 100%; height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; }
+        #user-input { width: 80%; padding: 10px; }
+        #send-btn { padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Type your message..." />
+    <button id="send-btn">Send</button>
+
+    <script>
+        const API_KEY = "AIzaSyBLoVssOFRozRvSjEOXfhWhOScICdMZbWE"; // Replace with your actual API key
+        const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyBLoVssOFRozRvSjEOXfhWhOScICdMZbWE`;
+
+        async function getGeminiResponse(userMessage) {
+            const requestBody = { contents: [{ role: "user", parts: [{ text: userMessage }] }] };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestBody),
+                });
+
+                const data = await response.json();
+                return data.candidates[0]?.content?.parts[0]?.text || "No response received.";
+            } catch (error) {
+                console.error("Error fetching response:", error);
+                return "Error in chatbot response.";
+            }
+        }
+
+        document.getElementById("send-btn").addEventListener("click", async () => {
+            const userInput = document.getElementById("user-input").value;
+            if (!userInput) return;
+
+            const chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += `<p><b>You:</b> ${userInput}</p>`;
+
+            const botResponse = await getGeminiResponse(userInput);
+            chatBox.innerHTML += `<p><b>Bot:</b> ${botResponse}</p>`;
+
+            document.getElementById("user-input").value = "";
+        });
+    </script>
+</body>
+</html>

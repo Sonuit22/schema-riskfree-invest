@@ -1,0 +1,269 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank FD & RD Comparison</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="botimag.cs">
+    <link rel="stylesheet" href="cssForHtml.css">
+    <style>
+        /* General Styling */
+        body {
+            background-color: #3f062a;
+            color: rgb(240, 80, 12);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #chatbot{
+            position: fixed;
+            left: 1500px;
+            top: 290px;
+        }
+
+
+        h1 {
+            color: rgb(169, 11, 74);
+            text-align: center;
+            text-shadow: #000000 2px 2px 2px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        p {
+            color: #f0f0f2;
+        }
+        .chatbot2{
+            position: fixed;
+            top: 260px;
+           left: 1500px;
+
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(237, 235, 235, 0.2);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(45deg, #0d47a1, #42a5f5);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            position: relative;
+        }
+
+        header img {
+            width: 110px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* Header Animation */
+        .header-animation {
+            width: 200px;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            animation: float 4s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(10px); }
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Login Section */
+        #login {
+            background: #eee;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Comparison Section */
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        select, button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        /* Bank Logos */
+        .bank-logo-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .bank-logo-section img {
+            width: 120px;
+            height: auto;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .bank-logo-section img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Article Section */
+        #article-section {
+            background: #081f28;
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background: #000;
+            color: white;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="Website Logo">
+        <h1>Welcome to Schema</h1>
+        <nav>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="article.php">Article</a>
+            <a href="debt_management.php">Debt Mng. & Counseling</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+    
+
+    <div class="container">
+        <section id="login">
+            <h2>Login</h2>
+            <form action="login.php" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+        </section>
+
+        <section class="comparison-container">
+            <h1>Compare FD & RD Schemes</h1>
+            <form method="POST" action="compare.php">
+                <label for="bank1">Select First Bank:</label>
+                <select name="bank1" id="bank1">
+                    <option value="North East Small Finance Bank">North East SF Bank</option>
+                    <option value="SBI">SBI</option>
+                    <option value="HDFC">HDFC</option>
+                    <option value="Canara">Canara</option>
+                    <option value="Mizoram Rural Bank">Mizoram Rural Bank</option>
+                </select>
+
+                <label for="bank2">Select Second Bank:</label>
+                <select name="bank2" id="bank2">
+                    <option value="North East Small Finance Bank">North East SF Bank</option>
+                    <option value="SBI">SBI</option>
+                    <option value="HDFC">HDFC</option>
+                    <option value="Canara">Canara</option>
+                    <option value="Mizoram Rural Bank">Mizoram Rural Bank</option>
+                </select>
+
+                <button type="submit">Compare</button>
+            </form>
+
+            <div id="comparison-results">
+                <!-- Comparison results will be displayed here -->
+            </div>
+
+            <div class="bank-logo-section">
+                <img src="images/NESFbank.jpg" alt="NESF Bank">
+                <img src="images/sbi.jpg" alt="SBI">
+                <img src="images/hdfc.jpg" alt="HDFC">
+                <img src="images/canara.jpg" alt="Canara">
+                <img src="images/mizoramb.png" alt="Mizoram Rural Bank">
+            </div>
+        </section>
+        <img src="" alt="">
+    </div>
+    <!-- <img id="chatbot" class="chat" -->
+    
+    <img id="chatbot" class="chatbot" height="200" width="200" src="images/Adobe Express - file.png" alt="chatbot">
+    <div id="chat-container">
+        <div id="chat-header">Gemini Finance Assistant <span id="close-chat">&times;</span></div>
+        <div style="width: 377px;" id="chat-box"></div>
+        <div style="display: flex;">
+
+            <input type="text" id="user-input" placeholder="Type your message..." />
+            <button style="height: 38px; top: 555px;" id="send-btn">Send</button>
+        </div>
+
+    </div>
+
+    <section id="article-section">
+        <h2>Write an Article on Bank Schemes</h2>
+        <p>Share your insights and experiences related to various bank schemes.</p>
+
+        <form action="submit_article.php" method="POST">
+            <label for="article-title">Article Title:</label>
+            <input type="text" id="article-title" name="article_title" required>
+
+            <label for="article-content">Article Content:</label>
+            <textarea id="article-content" name="article_content" rows="10" required></textarea>
+
+            <label for="author-name">Your Name:</label>
+            <input type="text" id="author-name" name="author_name" required>
+
+            <button type="submit">Submit Article</button>
+        </form>
+        
+    </section>
+    <!-- bot -->
+    
+    <script src="botimag.js"></script>
+
+
+    <!-- <footer>
+        <p>&copy; 2025 Aware. All rights reserved.</p>
+        <p>MZU, Aizawl(796004)</p>
+        <p>sonuit2022@gmail.com</p>
+    </footer> -->
+</body>
+</html>
