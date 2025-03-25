@@ -8,7 +8,7 @@ document.getElementById("close-chat").addEventListener("click", function() {
 // document.getElementById("chatbot").addEventListener("click", function() {
 //     document.getElementById("chat-container").style.right = "-500px";
 // });
- const API_KEY = "AIzaSyBLoVssOFRozRvSjEOXfhWhOScICdMZbWE"; // Replace with your actual API key
+ const API_KEY = ""; // Replace with your actual API key
         const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyBLoVssOFRozRvSjEOXfhWhOScICdMZbWE`;
 
         async function getGeminiResponse(userMessage) {
